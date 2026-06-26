@@ -12,6 +12,7 @@
 - **أو كملف JSON** (يُقرأ ويُمرر إلى `fromJson`)
 
 الـ JSON يحدد:
+
 - 🧭 أين يبدأ WebView (`startUrl`)
 - 📋 خطوات التعليمات للمستخدم (`steps`)
 - 📝 سكريبت JavaScript لاستخراج البيانات (`importScript`)
@@ -24,28 +25,24 @@
 
 ```jsonc
 {
-  // ===== حقول أساسية (مطلوبة) =====
+  // ===== Required Fields =====
 
-  "steps": [
-    "خطوة 1",
-    "خطوة 2",
-    "..."
-  ],
+  "steps": ["Step 1", "Step 2", "..."],
   "startUrl": "https://...",
-  "importScript": "// كود JavaScript لاستخراج الجدول...",
+  "importScript": "// JavaScript code to extract the table...",
 
-  // ===== حقول اختيارية =====
+  // ===== Optional Fields =====
 
   "scripts": [
     {
       "targetUrl": "https://...",
-      "script": "// كود JavaScript..."
-    }
+      "script": "// JavaScript code...",
+    },
   ],
   "redirectConfig": {
     "allowedUrls": ["https://..."],
-    "redirectUrl": "https://..."
-  }
+    "redirectUrl": "https://...",
+  },
 }
 ```
 
@@ -53,13 +50,13 @@
 
 ## 3. الحقول الرئيسية — نظرة سريعة
 
-| الحقل | النوع | مطلوب؟ | وظيفته |
-|-------|:-----:|:------:|--------|
-| `steps` | `Array<String>` | ✅ | قائمة التعليمات التي تظهر للمستخدم خطوة بخطوة |
-| `startUrl` | `String` | ✅ | رابط البداية الذي يفتحه WebView |
-| `importScript` | `String` | ✅ | سكريبت JavaScript لاستخراج الجدول عند الضغط على زر الاستيراد |
-| `scripts` | `Array<Object>` | ❌ | سكريبتات تُشغل تلقائياً عند زيارة صفحات معينة |
-| `redirectConfig` | `Object` | ❌ | قواعد لإعادة التوجيه إذا خرج المستخدم عن الصفحات المسموحة |
+| الحقل            |      النوع      | مطلوب؟ | وظيفته                                                       |
+| ---------------- | :-------------: | :----: | ------------------------------------------------------------ |
+| `steps`          | `Array<String>` |   ✅   | قائمة التعليمات التي تظهر للمستخدم خطوة بخطوة                |
+| `startUrl`       |    `String`     |   ✅   | رابط البداية الذي يفتحه WebView                              |
+| `importScript`   |    `String`     |   ✅   | سكريبت JavaScript لاستخراج الجدول عند الضغط على زر الاستيراد |
+| `scripts`        | `Array<Object>` |   ❌   | سكريبتات تُشغل تلقائياً عند زيارة صفحات معينة                |
+| `redirectConfig` |    `Object`     |   ❌   | قواعد لإعادة التوجيه إذا خرج المستخدم عن الصفحات المسموحة    |
 
 ---
 
@@ -76,13 +73,13 @@
 ]
 ```
 
-| الحقل | `steps` |
-|-------|---------|
-| **النوع** | `Array<String>` (مصفوفة نصوص) |
-| **مطلوب؟** | ✅ **نعم** |
-| **الوظيفة** | يعرض للمستخدم سلسلة من التعليمات في `ImportInstructionsBottomSheet` ليتبعها |
-| **عدد العناصر** | من 1 إلى أي عدد |
-| **مثال** | `["سجل الدخول", "اذهب للجدول", "اضغط استيراد"]` |
+| الحقل           | `steps`                                                                     |
+| --------------- | --------------------------------------------------------------------------- |
+| **النوع**       | `Array<String>` (مصفوفة نصوص)                                               |
+| **مطلوب؟**      | ✅ **نعم**                                                                  |
+| **الوظيفة**     | يعرض للمستخدم سلسلة من التعليمات في `ImportInstructionsBottomSheet` ليتبعها |
+| **عدد العناصر** | من 1 إلى أي عدد                                                             |
+| **مثال**        | `["سجل الدخول", "اذهب للجدول", "اضغط استيراد"]`                             |
 
 > 💡 **نصيحة:** اجعل الخطوات واضحة ومختصرة، وابدأ من تسجيل الدخول حتى الضغط على زر الاستيراد.
 
@@ -94,12 +91,12 @@
 "startUrl": "https://sms.uot.edu.ly/eng/login_ing.php"
 ```
 
-| الحقل | `startUrl` |
-|-------|------------|
-| **النوع** | `String` (نص — رابط URL) |
-| **مطلوب؟** | ✅ **نعم** |
+| الحقل       | `startUrl`                                                       |
+| ----------- | ---------------------------------------------------------------- |
+| **النوع**   | `String` (نص — رابط URL)                                         |
+| **مطلوب؟**  | ✅ **نعم**                                                       |
 | **الوظيفة** | الصفحة الأولى التي يتم تحميلها في WebView عند فتح أداة الاستيراد |
-| **مثال** | `"https://university.edu/login.php"` |
+| **مثال**    | `"https://university.edu/login.php"`                             |
 
 > 💡 **نصيحة:** ضع رابط صفحة تسجيل الدخول أو الصفحة الرئيسية للنظام الجامعي.
 
@@ -111,10 +108,10 @@
 "importScript": "const scheduleCode = {}; ... return JSON.stringify(schedule);"
 ```
 
-| الحقل | `importScript` |
-|-------|----------------|
-| **النوع** | `String` (نص — كود JavaScript كامل) |
-| **مطلوب؟** | ✅ **نعم** |
+| الحقل       | `importScript`                                                                                                            |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **النوع**   | `String` (نص — كود JavaScript كامل)                                                                                       |
+| **مطلوب؟**  | ✅ **نعم**                                                                                                                |
 | **الوظيفة** | السكريبت الذي يُشغل عندما يضغط المستخدم على زر **"استيراد جدول"**. يقوم بتصفح DOM واستخراج بيانات المواد وإرجاعها كـ JSON |
 
 #### آلية العمل:
@@ -134,12 +131,12 @@ return JSON.stringify(data)  ← يُرسل النتيجة إلى Dart
 
 #### أهم النقاط:
 
-| النقطة | الشرح |
-|--------|-------|
-| ✅ **آخر جملة** | يجب أن تكون `return JSON.stringify(data);` |
-| ✅ **DOM Query** | استخدم `document.querySelector` و `querySelectorAll` |
-| ✅ **الدوال المساعدة** | يمكن تعريف دوال داخلية مثل `timeToMinutes()` |
-| ✅ **البيانات المرجعة** | يجب أن تطابق هيكل `Course.fromJson` |
+| النقطة                  | الشرح                                                |
+| ----------------------- | ---------------------------------------------------- |
+| ✅ **آخر جملة**         | يجب أن تكون `return JSON.stringify(data);`           |
+| ✅ **DOM Query**        | استخدم `document.querySelector` و `querySelectorAll` |
+| ✅ **الدوال المساعدة**  | يمكن تعريف دوال داخلية مثل `timeToMinutes()`         |
+| ✅ **البيانات المرجعة** | يجب أن تطابق هيكل `Course.fromJson`                  |
 
 #### الهيكل المتوقع للبيانات المرجعة:
 
@@ -175,26 +172,26 @@ return JSON.stringify(data)  ← يُرسل النتيجة إلى Dart
 ]
 ```
 
-| الحقل | `scripts` |
-|-------|-----------|
-| **النوع** | `Array<Object>` (مصفوفة كائنات) |
-| **مطلوب؟** | ❌ اختياري |
-| **الوظيفة** | تنفيذ سكريبتات معينة **تلقائياً** عند زيارة صفحات محددة أثناء التنقل (قبل الضغط على زر الاستيراد) |
-| **متى يُستخدم؟** | للكشف عن الصفحة المستهدفة، أو تعديل DOM، أو إرسال إشارات إلى التطبيق |
+| الحقل            | `scripts`                                                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------- |
+| **النوع**        | `Array<Object>` (مصفوفة كائنات)                                                                   |
+| **مطلوب؟**       | ❌ اختياري                                                                                        |
+| **الوظيفة**      | تنفيذ سكريبتات معينة **تلقائياً** عند زيارة صفحات محددة أثناء التنقل (قبل الضغط على زر الاستيراد) |
+| **متى يُستخدم؟** | للكشف عن الصفحة المستهدفة، أو تعديل DOM، أو إرسال إشارات إلى التطبيق                              |
 
 #### الحقول الفرعية لكل كائن:
 
-| الحقل | النوع | مطلوب؟ | الوصف |
-|-------|:-----:|:------:|-------|
-| `targetUrl` | `String` | ✅ | رابط الصفحة التي سيتم تشغيل السكريبت عند زيارتها (تتم المقارنة بـ `startsWith`) |
-| `script` | `String` | ✅ | كود JavaScript الذي سيتم تنفيذه |
+| الحقل       |  النوع   | مطلوب؟ | الوصف                                                                           |
+| ----------- | :------: | :----: | ------------------------------------------------------------------------------- |
+| `targetUrl` | `String` |   ✅   | رابط الصفحة التي سيتم تشغيل السكريبت عند زيارتها (تتم المقارنة بـ `startsWith`) |
+| `script`    | `String` |   ✅   | كود JavaScript الذي سيتم تنفيذه                                                 |
 
 #### مثال — الكشف عن الصفحة المستهدفة:
 
 ```json
 {
-    "targetUrl": "https://university.edu/student/",
-    "script": "const params = new URLSearchParams(window.location.search); if(params.get('page') === 'mytable') { window.isTargeted.postMessage('true'); }"
+  "targetUrl": "https://university.edu/student/",
+  "script": "const params = new URLSearchParams(window.location.search); if(params.get('page') === 'mytable') { window.isTargeted.postMessage('true'); }"
 }
 ```
 
@@ -211,18 +208,18 @@ return JSON.stringify(data)  ← يُرسل النتيجة إلى Dart
 }
 ```
 
-| الحقل | `redirectConfig` |
-|-------|------------------|
-| **النوع** | `Object` أو `null` |
-| **مطلوب؟** | ❌ اختياري (إذا كان `null`، تُعطّل الميزة) |
+| الحقل       | `redirectConfig`                                                                         |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| **النوع**   | `Object` أو `null`                                                                       |
+| **مطلوب؟**  | ❌ اختياري (إذا كان `null`، تُعطّل الميزة)                                               |
 | **الوظيفة** | إذا انتقل المستخدم إلى رابط خارج `allowedUrls`، يتم إعادة توجيهه قسراً إلى `redirectUrl` |
 
 #### الحقول الفرعية:
 
-| الحقل | النوع | مطلوب؟ | الوصف |
-|-------|:-----:|:------:|-------|
-| `allowedUrls` | `Array<String>` | ✅ | قائمة بالروابط المسموح البقاء فيها |
-| `redirectUrl` | `String` | ✅ | الرابط الذي سيتم إعادة التوجيه إليه |
+| الحقل         |      النوع      | مطلوب؟ | الوصف                               |
+| ------------- | :-------------: | :----: | ----------------------------------- |
+| `allowedUrls` | `Array<String>` |   ✅   | قائمة بالروابط المسموح البقاء فيها  |
+| `redirectUrl` |    `String`     |   ✅   | الرابط الذي سيتم إعادة التوجيه إليه |
 
 #### آلية العمل:
 
@@ -241,24 +238,24 @@ return JSON.stringify(data)  ← يُرسل النتيجة إلى Dart
 
 ```json
 {
-    "steps": [
-        "قم بتسجيل الدخول إلى حسابك الجامعي",
-        "انتقل إلى صفحة الجدول.",
-        "ستلاحظ أن الزر تغيّر إلى \"استيراد جدول\"",
-        "اضغط على الزر ليتم استيراد الجدول"
-    ],
-    "startUrl": "https://sms.uot.edu.ly/eng/login_ing.php",
-    "importScript": "const table = document.querySelector('table'); if (!table) return; const rows = table.querySelectorAll('tr'); const schedule = {}; // استخراج البيانات return JSON.stringify(schedule);",
-    "scripts": [
-        {
-            "targetUrl": "https://sms.uot.edu.ly/utstudent/index.php",
-            "script": "const params = new URLSearchParams(window.location.search); if('mytable' === params.get('page')) { window.isTargeted.postMessage('true'); }"
-        }
-    ],
-    "redirectConfig": {
-        "allowedUrls": ["https://sms.uot.edu.ly/"],
-        "redirectUrl": "https://sms.uot.edu.ly/eng/login_ing.php"
+  "steps": [
+    "قم بتسجيل الدخول إلى حسابك الجامعي",
+    "انتقل إلى صفحة الجدول.",
+    "ستلاحظ أن الزر تغيّر إلى \"استيراد جدول\"",
+    "اضغط على الزر ليتم استيراد الجدول"
+  ],
+  "startUrl": "https://sms.uot.edu.ly/eng/login_ing.php",
+  "importScript": "const table = document.querySelector('table'); if (!table) return; const rows = table.querySelectorAll('tr'); const schedule = {}; // extract the data return JSON.stringify(schedule);",
+  "scripts": [
+    {
+      "targetUrl": "https://sms.uot.edu.ly/utstudent/index.php",
+      "script": "const params = new URLSearchParams(window.location.search); if('mytable' === params.get('page')) { window.isTargeted.postMessage('true'); }"
     }
+  ],
+  "redirectConfig": {
+    "allowedUrls": ["https://sms.uot.edu.ly/"],
+    "redirectUrl": "https://sms.uot.edu.ly/eng/login_ing.php"
+  }
 }
 ```
 
@@ -303,15 +300,15 @@ return JSON.stringify(data)  ← يُرسل النتيجة إلى Dart
 
 ## 7. نصائح سريعة للمطور 💡
 
-| 🏷️ | النصيحة |
-|:---:|---------|
-| ✅ | ابدأ بـ `startUrl` و `importScript` — هما المطلوبان فقط لتجربة بسيطة |
-| ✅ | اختبر `importScript` في **Console المتصفح** قبل إضافته |
-| ✅ | استخدم `redirectConfig` لمنع المستخدم من مغادرة النطاق المسموح |
-| ✅ | استخدم `scripts` للكشف عن وصول المستخدم للصفحة الصحيحة |
-| ⚠️ | إذا كان `scripts` فارغاً أو `null`، لن يتم تشغيل أي سكريبت تنقل |
-| ⚠️ | إذا كان `redirectConfig: null`، لن يتم إعادة التوجيه أبداً |
-| 🧪 | تأكد من صحة الـ JSON عبر [jsonlint.com](https://jsonlint.com) |
+| 🏷️  | النصيحة                                                              |
+| :-: | -------------------------------------------------------------------- |
+| ✅  | ابدأ بـ `startUrl` و `importScript` — هما المطلوبان فقط لتجربة بسيطة |
+| ✅  | اختبر `importScript` في **Console المتصفح** قبل إضافته               |
+| ✅  | استخدم `redirectConfig` لمنع المستخدم من مغادرة النطاق المسموح       |
+| ✅  | استخدم `scripts` للكشف عن وصول المستخدم للصفحة الصحيحة               |
+| ⚠️  | إذا كان `scripts` فارغاً أو `null`، لن يتم تشغيل أي سكريبت تنقل      |
+| ⚠️  | إذا كان `redirectConfig: null`، لن يتم إعادة التوجيه أبداً           |
+| 🧪  | تأكد من صحة الـ JSON عبر [jsonlint.com](https://jsonlint.com)        |
 
 ---
 
@@ -319,13 +316,13 @@ return JSON.stringify(data)  ← يُرسل النتيجة إلى Dart
 
 نفس هيكل الـ config يُستخدم أيضاً في `UniversityAuthHandler` للمصادقة الجامعية:
 
-| الميزة | `ImportScheduleHandler` | `UniversityAuthHandler` |
-|--------|:----------------------:|:----------------------:|
-| `startUrl` | ✅ | ✅ |
-| `scripts` | ✅ | ✅ |
-| `redirectConfig` | ✅ | ✅ |
-| `steps` | ✅ | ❌ |
-| `importScript` | ✅ | ❌ |
+| الميزة           | `ImportScheduleHandler` | `UniversityAuthHandler` |
+| ---------------- | :---------------------: | :---------------------: |
+| `startUrl`       |           ✅            |           ✅            |
+| `scripts`        |           ✅            |           ✅            |
+| `redirectConfig` |           ✅            |           ✅            |
+| `steps`          |           ✅            |           ❌            |
+| `importScript`   |           ✅            |           ❌            |
 
 ---
 
